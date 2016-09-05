@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FileSystemBrowser.Models
 {
-    public class FileInfo
+    public class FilesInfo
     {
         // File counters.
         public int FileUnder10MbCounter { get; set; }
