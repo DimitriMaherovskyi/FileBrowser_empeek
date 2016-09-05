@@ -16,6 +16,7 @@ namespace FileSystemBrowser.Controllers
         private const int Mb50 = 1;
         private const int Mb100 = 1;
 
+        [HttpGet]
         public FilesInfo GetInformation()
         {
             return new FilesInfo();
