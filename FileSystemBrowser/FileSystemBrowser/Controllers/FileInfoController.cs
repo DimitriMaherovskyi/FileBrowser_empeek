@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.IO;
 using FileSystemBrowser.Models;
+using System.Web.Http.Results;
 
 namespace FileSystemBrowser.Controllers
 {
@@ -17,9 +18,9 @@ namespace FileSystemBrowser.Controllers
         private const int Mb100 = 1;
 
         [HttpGet]
-        public FilesInfo GetInformation()
+        public JsonResult<FilesInfo> GetInformation()
         {
-            return new FilesInfo();
+            return Json(new FilesInfo());
         }
     }
 }

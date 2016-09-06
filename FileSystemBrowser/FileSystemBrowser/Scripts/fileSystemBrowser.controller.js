@@ -4,26 +4,11 @@
         .module("fileSystemBrowserModule")
         .controller("fileSystemBrowserController", fileSystemBrowserController);
 
-    fileSystemBrowserController.$inject = ['$scope', 'fileSystemBrowserDataService', 'filesInfo'];
+    fileSystemBrowserController.$inject = ['$scope', 'fileSystemBrowserDataService'];
 
-    function fileSystemBrowserController($scope, fileSystemBrowserDataService, filesInfo) {
+    function fileSystemBrowserController($scope, fileSystemBrowserDataService) {
         var vm = this;
-        vm.filesInfo = filesInfo;
-
-        //vm.filesHeaders = [
-        //    {
-        //        name: '<= 10 mb',
-        //        field: 'FileUnder10MbCounter'
-        //    },
-        //    {
-        //        name: '> 10, <= 50 mb',
-        //        field: 'File10To50MbCounter'
-        //    },
-        //    {
-        //        name: '>= 100 mb',
-        //        field: 'FileOver100MbCounter'
-        //    }
-        //];
+        vm.filesInfo = 'filesInfo';
 
         var activate = function () {
             fileSystemBrowserDataService.getInfo().then(function (response) {

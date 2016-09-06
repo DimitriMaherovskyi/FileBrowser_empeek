@@ -1,10 +1,22 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
-	<meta charset="utf-8" />
+    <title>Data information</title>
+    <meta charset="utf-8" />
+
+    <!-- Scripts section -->
+    <script src="../Libs/Angular/angular.min.js"></script>
+    <script src="../Scripts/fileSystemBrowser.module.js"></script>
+    <script src="../Scripts/fileSystemBrowser-data.service.js"></script>
+    <script src="../Scripts/fileSystemBrowser.controller.js"></script>
+    <!-- End scripts section -->
 </head>
 <body>
-    <h1>Hello world</h1>
+    <div ng-app="fileSystemBrowserModule">
+        <div ng-controller="fileSystemBrowserController as fsc">
+            {{fsc.filesInfo.FileUnder10MbCounter}}
+
+        </div>
+    </div>
 </body>
 </html>
