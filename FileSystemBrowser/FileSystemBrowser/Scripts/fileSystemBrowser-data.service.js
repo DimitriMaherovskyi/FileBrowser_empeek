@@ -9,13 +9,18 @@
     function fileSystemBrowserDataService($http) {
 
         var service = {
-            getInfo: getInfoAjax,
+            getFilesCount: getInfoAjax,
         };
 
         return service;
 
-        function getInfoAjax() {
-            var promise = $http.get('/api/FileInfo/GetInformation');
+        function getInfoAjax(root) {
+            //var promise = $http.get('/api/FileInfo/GetInformation');
+            var promise = $http({
+                url: '/api/FileInfo/GetInformation',
+                method: "GET",
+                params: { root: root }
+            });
             return promise;
         }
 

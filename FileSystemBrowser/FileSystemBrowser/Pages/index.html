@@ -14,9 +14,24 @@
 <body>
     <div ng-app="fileSystemBrowserModule">
         <div ng-controller="fileSystemBrowserController as fsc">
-            <p>{{fsc.filesInfo.FileUnder10MbCounter}}</p>
-            <p>{{fsc.filesInfo.File10To50MbCounter}}</p>
-            <p>{{fsc.filesInfo.FileOver100MbCounter}}</p>
+            <div ng-if="fsc.dataLoading">Please, stand by.</div>
+            <table>
+                <tr>
+                    <th>Under 10 mb</th>
+                    <th>10 to 50 mb</th>
+                    <th>Over 100 mb</th>
+                </tr>
+                <tr ng-if="fsc.dataLoading">
+                    <th>-</th>
+                    <th>-</th>
+                    <th>-</th>
+                </tr>
+                <tr>
+                    <th>{{fsc.fileCounter.FileUnder10MbCounter}}</th>
+                    <th>{{fsc.fileCounter.File10To50MbCounter}}</th>
+                    <th>{{fsc.fileCounter.FileOver100MbCounter}}</th>
+                </tr>
+            </table>            
 
         </div>
     </div>

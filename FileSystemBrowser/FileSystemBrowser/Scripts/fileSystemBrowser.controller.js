@@ -8,15 +8,23 @@
 
     function fileSystemBrowserController($scope, fileSystemBrowserDataService) {
         var vm = this;
-        vm.filesInfo = 'filesInfo';
+        vm.fileCounter;
+        vm.dataLoading;
 
         var activate = function () {
-            fileSystemBrowserDataService.getInfo().then(function (response) {
-                vm.filesInfo = response.data;
-            });
+            getFilesCount('D:\\');
         };
 
         activate();
+
+        function getFilesCount(root) {
+            vm.dataLoading = true;
+            fileSystemBrowserDataService.getFilesCount(root).then(function (response) {
+                vm.fileCounter = response.data;
+            }).finally(function () {
+                vm.dataLoading = false;
+            });
+        }
     }
 
 })(angular);
