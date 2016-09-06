@@ -22,15 +22,15 @@ namespace FileSystemBrowser.Controllers
         private static readonly object sync = new object();
 
         [HttpGet]
-        public JsonResult<FilesInfo> GetInformation()
+        public JsonResult<FileCounter> GetInformation()
         {
-            FilesInfo fi = CountFiles();
+            FileCounter fi = CountFiles();
             return Json(fi);
         }
 
-        private FilesInfo CountFiles()
+        private FileCounter CountFiles()
         {
-            FilesInfo fi = new FilesInfo();
+            FileCounter fc = new FileCounter();
 
             // To search in the entire computer.
             string[] drives = Environment.GetLogicalDrives();
@@ -39,20 +39,20 @@ namespace FileSystemBrowser.Controllers
             {
                 DriveInfo di = new DriveInfo(d);
                 DirectoryInfo rootDir = di.RootDirectory;
-                WalkDirectoryTree(rootDir, fi);
+                WalkDirectoryTree(rootDir, fc);
             });
 
-            return fi;
+            return fc;
         }
 
         // CountFiles() method.
-        private static void WalkDirectoryTree(DirectoryInfo root, FilesInfo fInfo)
+        private static void WalkDirectoryTree(DirectoryInfo root, FileCounter fileCounter)
         {
             FileInfo[] files = null;
             DirectoryInfo[] subDirs = null;
             
             files = GetFilesFromDirectory(root);
-            DetermineFilesLength(files, fInfo);
+            DetermineFilesLength(files, fileCounter);
             subDirs = GetSubdirectories(root);
             
             // Recursive call.
@@ -60,7 +60,7 @@ namespace FileSystemBrowser.Controllers
             {
                 Parallel.ForEach(subDirs, sd =>
                 {
-                    WalkDirectoryTree(sd, fInfo);
+                    WalkDirectoryTree(sd, fileCounter);
                 });
             }
         }
@@ -100,7 +100,7 @@ namespace FileSystemBrowser.Controllers
             }
         }
 
-        private static void DetermineFilesLength(FileInfo[] files, FilesInfo fInfo)
+        private static void DetermineFilesLength(FileInfo[] files, FileCounter fileCounter)
         {
             // Check file length to count them by length.
             if (files != null)
@@ -113,15 +113,15 @@ namespace FileSystemBrowser.Controllers
                     {
                         if (fi.Length <= Mb10)
                         {
-                            fInfo.FileUnder10MbCounter++;
+                            fileCounter.FileUnder10MbCounter++;
                         }
                         if (fi.Length > Mb10 && fi.Length <= Mb50)
                         {
-                            fInfo.File10To50MbCounter++;
+                            fileCounter.File10To50MbCounter++;
                         }
                         if (fi.Length >= Mb100)
                         {
-                            fInfo.FileOver100MbCounter++;
+                            fileCounter.FileOver100MbCounter++;
                         }
                     }
                 }

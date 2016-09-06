@@ -5,14 +5,12 @@ using System.Web;
 
 namespace FileSystemBrowser.Models
 {
-    public class FilesInfo
+    public class FileCounter
     {
-        // File counters.
         public long FileUnder10MbCounter { get; set; }
         public long File10To50MbCounter { get; set; }
         public long FileOver100MbCounter { get; set; }
 
-        // Files name container.
-        public List<string> FileDirectory { get; set; }
+        
     }
 }
