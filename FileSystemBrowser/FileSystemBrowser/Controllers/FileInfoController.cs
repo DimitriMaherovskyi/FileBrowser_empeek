@@ -34,7 +34,7 @@ namespace FileSystemBrowser.Controllers
 
             // To search in the entire computer.
             string[] drives = Environment.GetLogicalDrives();
-            
+
             Parallel.ForEach(drives, d =>
             {
                 DriveInfo di = new DriveInfo(d);
@@ -45,25 +45,63 @@ namespace FileSystemBrowser.Controllers
             return fi;
         }
 
+        // CountFiles() method.
         private static void WalkDirectoryTree(DirectoryInfo root, FilesInfo fInfo)
         {
             FileInfo[] files = null;
             DirectoryInfo[] subDirs = null;
+            
+            files = GetFilesFromDirectory(root);
+            DetermineFilesLength(files, fInfo);
+            subDirs = GetSubdirectories(root);
+            
+            // Recursive call.
+            if (subDirs != null)
+            {
+                Parallel.ForEach(subDirs, sd =>
+                {
+                    WalkDirectoryTree(sd, fInfo);
+                });
+            }
+        }
 
+        // WalkDirectoryTree() methods.
+        private static FileInfo[] GetFilesFromDirectory(DirectoryInfo root)
+        {
             // Getting files from directory.
             try
             {
-                files = root.GetFiles("*.*");
+                return root.GetFiles("*.*");
             }
             catch (UnauthorizedAccessException e)
             {
-
+                return null;
             }
             catch (DirectoryNotFoundException e)
             {
-
+                return null;
             }
+        }
 
+        private static DirectoryInfo[] GetSubdirectories(DirectoryInfo root)
+        {
+            // Get all subdirectories under current directory.
+            try
+            {
+                return root.GetDirectories();
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return null;
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                return null;
+            }
+        }
+
+        private static void DetermineFilesLength(FileInfo[] files, FilesInfo fInfo)
+        {
             // Check file length to count them by length.
             if (files != null)
             {
@@ -88,29 +126,7 @@ namespace FileSystemBrowser.Controllers
                     }
                 }
             }
-
-            // Get all subdirectories under current directory.
-            try
-            {
-                subDirs = root.GetDirectories();
-            }
-            catch (UnauthorizedAccessException e)
-            {
-
-            }
-            catch (DirectoryNotFoundException e)
-            {
-
-            }
-
-            // Recursive call.
-            if (subDirs != null)
-            {
-                Parallel.ForEach(subDirs, sd =>
-                {
-                    WalkDirectoryTree(sd, fInfo);
-                });
-            }
         }
+        // End of WalkDirectoryTree() methods.
     }
 }
