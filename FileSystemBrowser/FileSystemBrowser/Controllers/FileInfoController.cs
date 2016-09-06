@@ -33,22 +33,14 @@ namespace FileSystemBrowser.Controllers
             FilesInfo fi = new FilesInfo();
 
             // To search in the entire computer.
-            //string[] drives = Environment.GetLogicalDrives();
-            string[] drives = { "E:\\" };
-
-            foreach (string dr in drives)
+            string[] drives = Environment.GetLogicalDrives();
+            
+            Parallel.ForEach(drives, d =>
             {
-                DriveInfo di = new DriveInfo(dr);
+                DriveInfo di = new DriveInfo(d);
                 DirectoryInfo rootDir = di.RootDirectory;
                 WalkDirectoryTree(rootDir, fi);
-            }
-
-            //Parallel.ForEach(drives, d =>
-            //{
-            //    DriveInfo di = new DriveInfo(d);
-            //    DirectoryInfo rootDir = di.RootDirectory;
-            //    WalkDirectoryTree(rootDir, fi);
-            //});
+            });
 
             return fi;
         }
@@ -102,11 +94,16 @@ namespace FileSystemBrowser.Controllers
             {
                 subDirs = root.GetDirectories();
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException e)
+            {
+
+            }
+            catch (DirectoryNotFoundException e)
             {
 
             }
 
+            // Recursive call.
             if (subDirs != null)
             {
                 Parallel.ForEach(subDirs, sd =>
