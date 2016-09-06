@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.IO;
 using FileSystemBrowser.Models;
 using System.Web.Http.Results;
+using System.Threading.Tasks;
 
 namespace FileSystemBrowser.Controllers
 {
@@ -16,6 +17,9 @@ namespace FileSystemBrowser.Controllers
         private const int Mb10 = 10485760;
         private const int Mb50 = 52428800;
         private const int Mb100 = 104857600;
+
+        // Locker.
+        private static readonly object sync = new object();
 
         [HttpGet]
         public JsonResult<FilesInfo> GetInformation()
@@ -30,7 +34,7 @@ namespace FileSystemBrowser.Controllers
 
             // To search in the entire computer.
             //string[] drives = Environment.GetLogicalDrives();
-            string[] drives = { "F:\\" };
+            string[] drives = { "E:\\" };
 
             foreach (string dr in drives)
             {
@@ -38,6 +42,13 @@ namespace FileSystemBrowser.Controllers
                 DirectoryInfo rootDir = di.RootDirectory;
                 WalkDirectoryTree(rootDir, fi);
             }
+
+            //Parallel.ForEach(drives, d =>
+            //{
+            //    DriveInfo di = new DriveInfo(d);
+            //    DirectoryInfo rootDir = di.RootDirectory;
+            //    WalkDirectoryTree(rootDir, fi);
+            //});
 
             return fi;
         }
@@ -64,19 +75,24 @@ namespace FileSystemBrowser.Controllers
             // Check file length to count them by length.
             if (files != null)
             {
-                foreach (FileInfo fi in files)
+                // Synchronize threads.
+                lock (sync)
                 {
-                    if (fi.Length <= Mb10)
+                    // Check files size, count them by category.
+                    foreach (FileInfo fi in files)
                     {
-                        fInfo.FileUnder10MbCounter++;
-                    }
-                    if (fi.Length > Mb10 && fi.Length <= Mb50)
-                    {
-                        fInfo.File10To50MbCounter++;
-                    }
-                    if (fi.Length >= Mb100)
-                    {
-                        fInfo.FileOver100MbCounter++;
+                        if (fi.Length <= Mb10)
+                        {
+                            fInfo.FileUnder10MbCounter++;
+                        }
+                        if (fi.Length > Mb10 && fi.Length <= Mb50)
+                        {
+                            fInfo.File10To50MbCounter++;
+                        }
+                        if (fi.Length >= Mb100)
+                        {
+                            fInfo.FileOver100MbCounter++;
+                        }
                     }
                 }
             }
@@ -93,10 +109,10 @@ namespace FileSystemBrowser.Controllers
 
             if (subDirs != null)
             {
-                foreach (DirectoryInfo di in subDirs)
+                Parallel.ForEach(subDirs, sd =>
                 {
-                    WalkDirectoryTree(di, fInfo);
-                }
+                    WalkDirectoryTree(sd, fInfo);
+                });
             }
         }
     }
