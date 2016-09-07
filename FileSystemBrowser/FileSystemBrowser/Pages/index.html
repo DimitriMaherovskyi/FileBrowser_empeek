@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
 
     <!-- Scripts section -->
-    <script src="../Libs/Angular/angular.min.js"></script>
+    <script src="../Scripts/Libs/Angular/angular.min.js"></script>
     <script src="../Scripts/fileSystemBrowser.module.js"></script>
     <script src="../Scripts/fileSystemBrowser-data.service.js"></script>
     <script src="../Scripts/fileSystemBrowser.controller.js"></script>
@@ -14,6 +14,7 @@
 <body>
     <div ng-app="fileSystemBrowserModule">
         <div ng-controller="fileSystemBrowserController as fsc">
+            <!-- File counter table -->
             <div ng-if="fsc.dataLoading">Please, stand by.</div>
             <table>
                 <tr>
@@ -21,11 +22,13 @@
                     <th>10 to 50 mb</th>
                     <th>Over 100 mb</th>
                 </tr>
+                <!-- Show dash while data's loading -->
                 <tr ng-if="fsc.dataLoading">
                     <th>-</th>
                     <th>-</th>
                     <th>-</th>
                 </tr>
+                <!-- This will appear after data has loaded -->
                 <tr>
                     <th>{{fsc.fileCounter.FileUnder10MbCounter}}</th>
                     <th>{{fsc.fileCounter.File10To50MbCounter}}</th>
@@ -33,19 +36,19 @@
                 </tr>
             </table>            
 
+            <!-- File explorer -->
             <p>Current path: {{fsc.currentPath}}</p>
             <table>
                 <tr>
-                    <td><button ng-click="fsc.grabAndCount(fsc.currentPath, 'back')" ng-disabled="fsc.currentPath == 'root'">...</button></td>
+                    <td><button ng-click="fsc.grabAndCount(fsc.currentPath, fsc.tokenBack)" ng-disabled="fsc.currentPath == 'root'">...</button></td>
                 </tr>
                 <tr ng-repeat="d in fsc.directoryContainer.DirectoryList">
-                    <td><button ng-click="fsc.grabAndCount(d.FullPath, 'ok')">{{d.OriginalPath}}</button></td>
+                    <td><button ng-click="fsc.grabAndCount(d.FullPath, fsc.tokenOk)">{{d.OriginalPath}}</button></td>
                 </tr>
                 <tr ng-repeat="f in fsc.directoryContainer.FileList">
                     <td>{{f.OriginalPath}}</td>
                 </tr>
             </table>
-
         </div>
     </div>
 </body>

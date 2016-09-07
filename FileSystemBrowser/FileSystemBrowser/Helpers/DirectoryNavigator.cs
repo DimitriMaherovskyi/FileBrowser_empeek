@@ -11,7 +11,7 @@ namespace FileSystemBrowser.Helpers
     {
         // Token constants.
         public const string commandBack = "back";
-        public const string Root = "root";
+        public const string root = "root";
 
         public DirectoryContainer GrabContents(string root, string token)
         {
@@ -23,7 +23,7 @@ namespace FileSystemBrowser.Helpers
                 return dc;
             }
 
-            if (token == Root)
+            if (token == DirectoryNavigator.root)
             {
                 getLogicalDrives(dc);
                 return dc;
@@ -38,6 +38,7 @@ namespace FileSystemBrowser.Helpers
             DirectoryInfo di = new DirectoryInfo(root);
             di = di.Parent;
 
+            // If directory info is not a logical drive.
             if (di != null)
             {
                 return getDirectory(root, dc, di);
@@ -75,7 +76,8 @@ namespace FileSystemBrowser.Helpers
             }
 
             dc.DirectoryList = dir;
-            dc.Path = Root;
+            // Parent to logical drives is where app hosted. To avoid collisions.
+            dc.Path = root;
 
             return dc;
         }

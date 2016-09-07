@@ -18,30 +18,7 @@ namespace FileSystemBrowser.Controllers
         [HttpGet]
         public JsonResult<FileCounterContainer> CountFilesFromDirectory(string root, string token)
         {
-            return Json(Count(root, token));
-        }
-
-        public FileCounterContainer Count(string root, string token)
-        {
-            //DirectoryNavigator dn = new DirectoryNavigator();
-            if (token == "root")
-            {
-                return new FileCounter().CountAllFiles();
-            }
-
-            if (token == "back")
-            {
-                DirectoryInfo di = new DirectoryInfo(root);
-                di = di.Parent;
-                if (di != null)
-                {
-                    return new FileCounter().CountFiles(di.FullName);
-                }
-
-                return new FileCounter().CountAllFiles();
-            }
-
-            return new FileCounter().CountFiles(root);
+            return Json(new FileCounter().Count(root, token));
         }
     }
 }

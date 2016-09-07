@@ -18,11 +18,33 @@ namespace FileSystemBrowser.Helpers
         // Locker.
         private static readonly object sync = new object();
         
-        public FileCounterContainer CountAllFiles()
+        public FileCounterContainer Count(string root, string token)
+        {
+            if (token == DirectoryNavigator.root)
+            {
+                return countAllFiles();
+            }
+            if (token == DirectoryNavigator.commandBack)
+            {
+                // Get parent and check if it exists.
+                DirectoryInfo di = new DirectoryInfo(root);
+                di = di.Parent;
+                if (di != null)
+                {
+                    return countFiles(di.FullName);
+                }
+
+                return countAllFiles();
+            }
+
+            return countFiles(root);
+        }
+
+        private FileCounterContainer countAllFiles()
         {
             FileCounterContainer fc = new FileCounterContainer();
 
-            // To search in the entire computer.
+            // To search in the entire host.
             string[] drives = Environment.GetLogicalDrives();
 
             Parallel.ForEach(drives, d =>
@@ -35,7 +57,7 @@ namespace FileSystemBrowser.Helpers
             return fc;
         }
 
-        public FileCounterContainer CountFiles(string root)
+        private FileCounterContainer countFiles(string root)
         {
             FileCounterContainer fc = new FileCounterContainer();
             DirectoryInfo rootDir = new DirectoryInfo(root);
@@ -63,7 +85,7 @@ namespace FileSystemBrowser.Helpers
                 });
             }
         }
-        
+
         private void determineFilesLength(FileInfo[] files, FileCounterContainer fileCounter)
         {
             // Check file length to count them by length.

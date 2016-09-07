@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Libs\Angular\angular.min.js" />
+    <Content Include="Scripts\Libs\Angular\angular.min.js" />
     <Content Include="Pages\index.html" />
     <Content Include="Scripts\fileSystemBrowser-data.service.js" />
     <Content Include="Scripts\fileSystemBrowser.controller.js" />

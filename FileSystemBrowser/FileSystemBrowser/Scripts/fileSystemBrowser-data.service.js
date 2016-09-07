@@ -33,5 +33,4 @@
             return promise;
         }
     }
-
 })(angular);
