@@ -9,29 +9,27 @@
     function fileSystemBrowserDataService($http) {
 
         var service = {
-            getFilesCount: getInfoAjax,
+            getFilesCount: getFilesCount,
+            grabDirectoryContents: grabDirectoryContents
         };
 
         return service;
 
-        function getInfoAjax(root) {
-            //var promise = $http.get('/api/FileInfo/GetInformation');
+        function getFilesCount(root) {
             var promise = $http({
-                url: '/api/FileInfo/GetInformation',
+                url: '/api/FileCounter/CountFilesFromDirectory',
                 method: "GET",
                 params: { root: root }
             });
             return promise;
         }
 
-        function getMock() {
-            var promise = 
-                {
-                    FileUnder10MbCounter: 10,
-                    File10To50MbCounter: 3,
-                    FileOver100MbCounter: 2
-                };
-
+        function grabDirectoryContents(root) {
+            var promise = $http({
+                url: '/api/FileExplorer/GrabDirectoryContents',
+                method: "GET",
+                params: { root: root }
+            });
             return promise;
         }
     }

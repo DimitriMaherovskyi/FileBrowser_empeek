@@ -9,13 +9,28 @@
     function fileSystemBrowserController($scope, fileSystemBrowserDataService) {
         var vm = this;
         vm.fileCounter;
+        vm.directoryContainer;
+
         vm.dataLoading;
+        vm.currentPath;
+
+        vm.grabAndCount = function(root) {
+            grabDirectoryContents(root);
+            getFilesCount(root)
+        }
 
         var activate = function () {
-            getFilesCount('D:\\');
+            vm.grabAndCount("E:\\");
         };
 
         activate();
+
+        function grabDirectoryContents(root) {
+            vm.currentPath = root;
+            fileSystemBrowserDataService.grabDirectoryContents(root).then(function (response) {
+                vm.directoryContainer = response.data;
+            });
+        }
 
         function getFilesCount(root) {
             vm.dataLoading = true;
@@ -25,6 +40,8 @@
                 vm.dataLoading = false;
             });
         }
+
+        
     }
 
 })(angular);

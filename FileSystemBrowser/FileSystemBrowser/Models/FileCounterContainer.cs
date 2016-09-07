@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FileSystemBrowser.Helpers;
 
 namespace FileSystemBrowser.Models
 {
@@ -9,6 +10,6 @@ namespace FileSystemBrowser.Models
     {
         public long FileUnder10MbCounter { get; set; }
         public long File10To50MbCounter { get; set; }
-        public long FileOver100MbCounter { get; set; }   
+        public long FileOver100MbCounter { get; set; }
     }
 }

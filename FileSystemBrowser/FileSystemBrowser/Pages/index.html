@@ -33,6 +33,19 @@
                 </tr>
             </table>            
 
+            <p>Current path: {{fsc.currentPath}}</p>
+            <table>
+                <tr>
+                    <td><button ng-click="fsc.grabAndCount('back')">...</button></td>
+                </tr>
+                <tr ng-repeat="d in fsc.directoryContainer.DirectoryList">
+                    <td><button ng-click="fsc.grabAndCount(d.FullPath)">{{d.OriginalPath}}</button></td>
+                </tr>
+                <tr ng-repeat="f in fsc.directoryContainer.FileList">
+                    <td>{{f.OriginalPath}}</td>
+                </tr>
+            </table>
+
         </div>
     </div>
 </body>

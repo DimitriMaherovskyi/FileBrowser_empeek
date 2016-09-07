@@ -17,6 +17,23 @@ namespace FileSystemBrowser.Helpers
 
         // Locker.
         private static readonly object sync = new object();
+        
+        public FileCounterContainer CountAllFiles()
+        {
+            FileCounterContainer fc = new FileCounterContainer();
+
+            // To search in the entire computer.
+            string[] drives = Environment.GetLogicalDrives();
+
+            Parallel.ForEach(drives, d =>
+            {
+                DriveInfo di = new DriveInfo(d);
+                DirectoryInfo rootDir = di.RootDirectory;
+                walkDirectoryTree(rootDir, fc);
+            });
+
+            return fc;
+        }
 
         public FileCounterContainer CountFiles(string root)
         {
@@ -31,10 +48,11 @@ namespace FileSystemBrowser.Helpers
         {
             FileInfo[] files = null;
             DirectoryInfo[] subDirs = null;
+            FolderContentsGrabber fcg = new FolderContentsGrabber();
 
-            files = getFilesFromDirectory(root);
+            files = fcg.GetFilesFromDirectory(root);
             determineFilesLength(files, fileCounter);
-            subDirs = getSubdirectories(root);
+            subDirs = fcg.GetSubdirectories(root);
 
             // Recursive call.
             if (subDirs != null)
@@ -45,42 +63,7 @@ namespace FileSystemBrowser.Helpers
                 });
             }
         }
-
-        // walkDirectoryTree() methods.
-        private FileInfo[] getFilesFromDirectory(DirectoryInfo root)
-        {
-            // Getting files from directory.
-            try
-            {
-                return root.GetFiles("*.*");
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                return null;
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                return null;
-            }
-        }
-
-        private DirectoryInfo[] getSubdirectories(DirectoryInfo root)
-        {
-            // Get all subdirectories under current directory.
-            try
-            {
-                return root.GetDirectories();
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                return null;
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                return null;
-            }
-        }
-
+        
         private void determineFilesLength(FileInfo[] files, FileCounterContainer fileCounter)
         {
             // Check file length to count them by length.
@@ -108,6 +91,5 @@ namespace FileSystemBrowser.Helpers
                 }
             }
         }
-        // End of walkDirectoryTree() methods.
     }
 }

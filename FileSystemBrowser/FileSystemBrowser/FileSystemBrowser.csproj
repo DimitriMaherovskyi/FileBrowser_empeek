@@ -91,13 +91,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\FileInfoController.cs" />
+    <Compile Include="Controllers\FileCounterController.cs" />
+    <Compile Include="Controllers\FileExplorerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FileCounter.cs" />
+    <Compile Include="Helpers\FolderContentsGrabber.cs" />
     <Compile Include="Models\FileCounterContainer.cs" />
-    <Compile Include="Models\DirectoryFileContainer.cs" />
+    <Compile Include="Models\DirectoryContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
