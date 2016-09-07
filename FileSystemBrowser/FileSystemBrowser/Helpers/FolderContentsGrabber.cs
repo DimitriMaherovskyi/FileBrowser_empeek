@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,8 @@ namespace FileSystemBrowser.Helpers
 {
     public class FolderContentsGrabber
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public FileInfo[] GetFilesFromDirectory(DirectoryInfo root)
         {
             // Getting files from directory.
@@ -17,10 +20,12 @@ namespace FileSystemBrowser.Helpers
             }
             catch (UnauthorizedAccessException e)
             {
+                log.Info(e);
                 return null;
             }
             catch (DirectoryNotFoundException e)
             {
+                log.Info(e);
                 return null;
             }
         }
@@ -34,10 +39,12 @@ namespace FileSystemBrowser.Helpers
             }
             catch (UnauthorizedAccessException e)
             {
+                log.Info(e);
                 return null;
             }
             catch (DirectoryNotFoundException e)
             {
+                log.Info(e);
                 return null;
             }
         }
