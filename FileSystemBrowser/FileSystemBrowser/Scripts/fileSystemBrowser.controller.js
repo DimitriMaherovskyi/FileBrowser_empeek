@@ -16,11 +16,11 @@
 
         vm.grabAndCount = function(root, token) {
             grabDirectoryContents(root, token);
-            getFilesCount(root)
+            getFilesCount(root, token)
         }
 
         var activate = function () {
-            vm.grabAndCount("E:\\", '1');
+            vm.grabAndCount("", 'root');
         };
 
         activate();
@@ -32,9 +32,10 @@
             });
         }
 
-        function getFilesCount(root) {
+        function getFilesCount(root, token) {
+            vm.fileCounter = null;
             vm.dataLoading = true;
-            fileSystemBrowserDataService.getFilesCount(root).then(function (response) {
+            fileSystemBrowserDataService.getFilesCount(root, token).then(function (response) {
                 vm.fileCounter = response.data;
             }).finally(function () {
                 vm.dataLoading = false;

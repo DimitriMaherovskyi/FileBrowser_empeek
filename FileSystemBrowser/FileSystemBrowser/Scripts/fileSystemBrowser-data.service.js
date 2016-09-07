@@ -15,11 +15,11 @@
 
         return service;
 
-        function getFilesCount(root) {
+        function getFilesCount(root, token) {
             var promise = $http({
                 url: '/api/FileCounter/CountFilesFromDirectory',
                 method: "GET",
-                params: { root: root }
+                params: { root: root, token: token }
             });
             return promise;
         }

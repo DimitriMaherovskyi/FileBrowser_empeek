@@ -16,17 +16,32 @@ namespace FileSystemBrowser.Controllers
     public class FileCounterController : ApiController
     {
         [HttpGet]
-        public JsonResult<FileCounterContainer> CountFilesFromDirectory(string root)
+        public JsonResult<FileCounterContainer> CountFilesFromDirectory(string root, string token)
         {
-            // If position is over logical drives.
-            if (root != null)
+            return Json(Count(root, token));
+        }
+
+        public FileCounterContainer Count(string root, string token)
+        {
+            //DirectoryNavigator dn = new DirectoryNavigator();
+            if (token == "root")
             {
-                return Json(new FileCounter().CountFiles(root));
+                return new FileCounter().CountAllFiles();
             }
-            else
+
+            if (token == "back")
             {
-                return Json(new FileCounter().CountAllFiles());
+                DirectoryInfo di = new DirectoryInfo(root);
+                di = di.Parent;
+                if (di != null)
+                {
+                    return new FileCounter().CountFiles(di.FullName);
+                }
+
+                return new FileCounter().CountAllFiles();
             }
+
+            return new FileCounter().CountFiles(root);
         }
     }
 }

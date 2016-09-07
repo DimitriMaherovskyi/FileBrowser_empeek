@@ -36,7 +36,7 @@
             <p>Current path: {{fsc.currentPath}}</p>
             <table>
                 <tr>
-                    <td><button ng-click="fsc.grabAndCount(fsc.currentPath, 'back')">...</button></td>
+                    <td><button ng-click="fsc.grabAndCount(fsc.currentPath, 'back')" ng-disabled="fsc.currentPath == 'root'">...</button></td>
                 </tr>
                 <tr ng-repeat="d in fsc.directoryContainer.DirectoryList">
                     <td><button ng-click="fsc.grabAndCount(d.FullPath, 'ok')">{{d.OriginalPath}}</button></td>
