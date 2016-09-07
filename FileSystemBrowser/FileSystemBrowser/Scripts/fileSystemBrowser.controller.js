@@ -11,7 +11,8 @@
         vm.fileCounter;
         vm.directoryContainer;
 
-        vm.dataLoading;
+        vm.calculationLoading;
+        vm.directoryLoading;
         vm.currentPath;
 
         // Tokens.
@@ -32,20 +33,23 @@
 
         // Ajax method callers.
         function grabDirectoryContents(root, token) {
+            vm.directoryLoading = true;
             fileSystemBrowserDataService.grabDirectoryContents(root, token).then(function (response) {
                 vm.directoryContainer = response.data;
                 vm.currentPath = vm.directoryContainer.Path;
+            }).finally(function () {
+                vm.directoryLoading = false;
             });
         }
 
         function getFilesCount(root, token) {
             vm.fileCounter = null;
             // Displaying message to wait the response.
-            vm.dataLoading = true;
+            vm.calculationLoading = true;
             fileSystemBrowserDataService.getFilesCount(root, token).then(function (response) {
                 vm.fileCounter = response.data;
             }).finally(function () {
-                vm.dataLoading = false;
+                vm.calculationLoading = false;
             });
         }
     }

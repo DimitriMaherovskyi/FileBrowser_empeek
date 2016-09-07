@@ -15,7 +15,7 @@
     <div ng-app="fileSystemBrowserModule">
         <div ng-controller="fileSystemBrowserController as fsc">
             <!-- File counter table -->
-            <div ng-if="fsc.dataLoading">Please, stand by.</div>
+            <div ng-if="fsc.calculationLoading">Calculating. Please, stand by.</div>
             <table>
                 <tr>
                     <th>Under 10 mb</th>
@@ -23,7 +23,7 @@
                     <th>Over 100 mb</th>
                 </tr>
                 <!-- Show dash while data's loading -->
-                <tr ng-if="fsc.dataLoading">
+                <tr ng-if="fsc.calculationLoading">
                     <th>-</th>
                     <th>-</th>
                     <th>-</th>
@@ -37,6 +37,7 @@
             </table>            
 
             <!-- File explorer -->
+            <div ng-if="fsc.directoryLoading">Loading. Please, stand by.</div>
             <p>Current path: {{fsc.currentPath}}</p>
             <table>
                 <tr>
