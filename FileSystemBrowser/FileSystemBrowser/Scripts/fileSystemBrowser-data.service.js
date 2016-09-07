@@ -24,11 +24,11 @@
             return promise;
         }
 
-        function grabDirectoryContents(root) {
+        function grabDirectoryContents(root, token) {
             var promise = $http({
                 url: '/api/FileExplorer/GrabDirectoryContents',
                 method: "GET",
-                params: { root: root }
+                params: { root: root, token: token }
             });
             return promise;
         }

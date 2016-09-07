@@ -14,21 +14,21 @@
         vm.dataLoading;
         vm.currentPath;
 
-        vm.grabAndCount = function(root) {
-            grabDirectoryContents(root);
+        vm.grabAndCount = function(root, token) {
+            grabDirectoryContents(root, token);
             getFilesCount(root)
         }
 
         var activate = function () {
-            vm.grabAndCount("E:\\");
+            vm.grabAndCount("E:\\", '1');
         };
 
         activate();
 
-        function grabDirectoryContents(root) {
-            vm.currentPath = root;
-            fileSystemBrowserDataService.grabDirectoryContents(root).then(function (response) {
+        function grabDirectoryContents(root, token) {
+            fileSystemBrowserDataService.grabDirectoryContents(root, token).then(function (response) {
                 vm.directoryContainer = response.data;
+                vm.currentPath = vm.directoryContainer.Path;
             });
         }
 

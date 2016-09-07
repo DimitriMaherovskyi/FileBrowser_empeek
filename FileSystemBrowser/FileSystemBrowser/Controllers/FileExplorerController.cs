@@ -14,15 +14,16 @@ namespace FileSystemBrowser.Controllers
     public class FileExplorerController : ApiController
     {
         [HttpGet]
-        public JsonResult<DirectoryContainer> GrabDirectoryContents(string root)
+        public JsonResult<DirectoryContainer> GrabDirectoryContents(string root, string token)
         {
             DirectoryContainer dc = new DirectoryContainer();
             FolderContentsGrabber fcg = new FolderContentsGrabber();
 
-            if (root == "back")
+            if (token == "back")
             {
                 dc.DirectoryList = fcg.GetSubdirectories(new DirectoryInfo(root).Parent);
                 dc.FileList = fcg.GetFilesFromDirectory(new DirectoryInfo(root).Parent);
+                dc.Path = new DirectoryInfo(root).Parent.FullName;
 
                 return Json(dc);
             }
@@ -30,6 +31,7 @@ namespace FileSystemBrowser.Controllers
             
             dc.DirectoryList = fcg.GetSubdirectories(new DirectoryInfo(root));
             dc.FileList = fcg.GetFilesFromDirectory(new DirectoryInfo(root));
+            dc.Path = new DirectoryInfo(root).FullName;
 
             return Json(dc);
         }
