@@ -10,13 +10,15 @@
     <script src="../Scripts/fileSystemBrowser-data.service.js"></script>
     <script src="../Scripts/fileSystemBrowser.controller.js"></script>
     <!-- End scripts section -->
+    <link rel="stylesheet" href="../Styles/Libs/bootstrap.min.css">
 </head>
 <body>
-    <div ng-app="fileSystemBrowserModule">
-        <div ng-controller="fileSystemBrowserController as fsc">
+    <div class="row" ng-app="fileSystemBrowserModule">
+        <div class="col-md-2"></div>
+        <div class="col-md-8" ng-controller="fileSystemBrowserController as fsc">
             <!-- File counter table -->
-            <div ng-if="fsc.calculationLoading">Calculating. Please, stand by.</div>
-            <table>
+            <p ng-if="fsc.calculationLoading">Calculating. Please, stand by.</p>
+            <table class="table table-striped">
                 <tr>
                     <th>Under 10 mb</th>
                     <th>10 to 50 mb</th>
@@ -37,20 +39,21 @@
             </table>            
 
             <!-- File explorer -->
-            <div ng-if="fsc.directoryLoading">Loading. Please, stand by.</div>
-            <p>Current path: {{fsc.currentPath}}</p>
+            <p ng-if="fsc.directoryLoading">Loading. Please, stand by.</p>
+            <p><b>Current path:</b> {{fsc.currentPath}}</p>
             <table>
                 <tr>
-                    <td><button ng-click="fsc.grabAndCount(fsc.currentPath, fsc.tokenBack)" ng-disabled="fsc.currentPath == 'root'">...</button></td>
+                    <td><button class="btn btn-link" ng-click="fsc.grabAndCount(fsc.currentPath, fsc.tokenBack)" ng-disabled="fsc.currentPath == 'root'">...</button></td>
                 </tr>
                 <tr ng-repeat="d in fsc.directoryContainer.DirectoryList">
-                    <td><button ng-click="fsc.grabAndCount(d.FullPath, fsc.tokenOk)">{{d.OriginalPath}}</button></td>
+                    <td><button class="btn btn-link" ng-click="fsc.grabAndCount(d.FullPath, fsc.tokenOk)">{{d.OriginalPath}}</button></td>
                 </tr>
                 <tr ng-repeat="f in fsc.directoryContainer.FileList">
-                    <td>{{f.OriginalPath}}</td>
+                    <td><p>{{f.OriginalPath}}</p></td>
                 </tr>
             </table>
         </div>
+        <div class="col-md-2"></div>
     </div>
 </body>
 </html>

@@ -91,6 +91,7 @@
     <Content Include="Scripts\fileSystemBrowser-data.service.js" />
     <Content Include="Scripts\fileSystemBrowser.controller.js" />
     <Content Include="Scripts\fileSystemBrowser.module.js" />
+    <Content Include="Styles\Libs\bootstrap.min.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
