@@ -14,10 +14,9 @@
 </head>
 <body>
     <div class="row" ng-app="fileSystemBrowserModule">
-        <div class="col-md-2"></div>
-        <div class="col-md-8" ng-controller="fileSystemBrowserController as fsc">
+        <div class="container" ng-controller="fileSystemBrowserController as fsc">
             <!-- File counter table -->
-            <p ng-if="fsc.calculationLoading">Calculating. Please, stand by.</p>
+            <p class="alert alert-info" ng-if="fsc.calculationLoading">Calculating. Please, stand by.</p>
             <table class="table table-striped">
                 <tr>
                     <th>Under 10 mb</th>
@@ -36,11 +35,11 @@
                     <th>{{fsc.fileCounter.File10To50MbCounter}}</th>
                     <th>{{fsc.fileCounter.FileOver100MbCounter}}</th>
                 </tr>
-            </table>            
+            </table>
 
             <!-- File explorer -->
-            <p ng-if="fsc.directoryLoading">Loading. Please, stand by.</p>
-            <p><b>Current path:</b> {{fsc.currentPath}}</p>
+            <p class="alert alert-info" ng-if="fsc.directoryLoading">Loading. Please, stand by.</p>
+            <p><strong>Current path:</strong> {{fsc.currentPath}}</p>
             <table>
                 <tr>
                     <td><button class="btn btn-link" ng-click="fsc.grabAndCount(fsc.currentPath, fsc.tokenBack)" ng-disabled="fsc.currentPath == 'root'">...</button></td>
@@ -49,11 +48,10 @@
                     <td><button class="btn btn-link" ng-click="fsc.grabAndCount(d.FullPath, fsc.tokenOk)">{{d.OriginalPath}}</button></td>
                 </tr>
                 <tr ng-repeat="f in fsc.directoryContainer.FileList">
-                    <td><p>{{f.OriginalPath}}</p></td>
+                    <td><ul>{{f.OriginalPath}}</ul></td>
                 </tr>
             </table>
         </div>
-        <div class="col-md-2"></div>
     </div>
 </body>
 </html>
